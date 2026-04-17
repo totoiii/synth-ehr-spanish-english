@@ -1,0 +1,176 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pipeline budget
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Datasets  : cwlc
+  Fractions : 100pct
+  TextSrc   : original
+  Stages    : eval downstream
+  N runs    : 3
+  Combos    : 1 dataset × 1 fraction = 1 jobs
+  GPU gen   : 2      GPU downstream: 2
+  SMOKE     : 0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rough wall-clock estimates (single RTX 6000 Ada, full mode):
+    generate step :  ~15–40 min per fraction per dataset (vLLM, n=5)
+    fidelity/priv :  ~1–3  min per fraction per dataset (5-run aggregate)
+    downstream    :  ~5–20 min per run × 5 runs ≈ 25–100 min per fraction
+  Full all-datasets × 4 fractions budget: ~18–36 hours.
+  The smoke profile takes ~3–8 min total across all datasets.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Dataset=cwlc   Fraction=100pct   TextSource=original
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [11:12:22] Model: /home/lmiranda/ehr-synthetic-bmc-2026/output/CWLC/gpt-oss-20b_100pct_20260218_162349_merged
+  [11:12:22] Reusing existing synth: /home/lmiranda/ehr-synthetic-bmc-2026/output/CWLC/synth_cwlc_100pct_20260220_093259.json
+  [11:12:22] [2/3] Multi-run fidelity+privacy eval
+[multirun_eval] Loading /home/lmiranda/ehr-synthetic-bmc-2026/output/CWLC/synth_cwlc_100pct_20260220_093259.json
+[multirun_eval] records=9000  detected n_runs=5
+[multirun_eval] run1: 8998/9000 non-empty generations
+[multirun_eval] run2: 8993/9000 non-empty generations
+[multirun_eval] run3: 8997/9000 non-empty generations
+[multirun_eval] run4: 8996/9000 non-empty generations
+[multirun_eval] run5: 8993/9000 non-empty generations
+
+[multirun_eval] Saved report → /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371/cwlc_100pct_original/multirun_eval.json
+
+Aggregated metrics (mean ± std across runs):
+  [fidelity_real]
+    avg_sentences_per_document          1.9907 ± 0.0000  (n=1)
+    avg_tokens_per_document             34.0108 ± 0.0000  (n=1)
+    avg_tokens_per_sentence             17.0851 ± 0.0000  (n=1)
+    unique_tokens                       30770.0000 ± 0.0000  (n=1)
+    unique_token_ratio                  0.1005 ± 0.0000  (n=1)
+  [fidelity_generated]
+    avg_sentences_per_document          1.7422 ± 0.0162  (n=5)
+    avg_tokens_per_document             38.3531 ± 0.2712  (n=5)
+    avg_tokens_per_sentence             22.0142 ± 0.0962  (n=5)
+    unique_tokens                       136137.2000 ± 550.5602  (n=5)
+    unique_token_ratio                  0.3946 ± 0.0014  (n=5)
+  [privacy]
+    8gram_overlap_percent               0.0091 ± 0.0021  (n=5)
+    5gram_overlap_percent               0.1071 ± 0.0057  (n=5)
+  [11:12:40]   ✓ eval complete in 0m18s
+  [11:12:40] [3/3] Downstream task × 3 runs (seed variance)
+  [11:12:40]   → training run 1/3  (seed=42)
+Skipping import of cpp extensions due to incompatible torch version 2.10.0+cu128 for torchao version 0.15.0             Please see https://github.com/pytorch/ao/issues/2919 for more info
+Reading /home/lmiranda/ehr-synthetic-bmc-2026/output/CWLC/synth_cwlc_100pct_20260220_093259.json...
+Loaded as JSON list with 9000 records.
+Map:   0%|          | 0/6300 [00:00<?, ? examples/s]Map:   2%|▏         | 150/6300 [00:00<00:04, 1483.39 examples/s]Map:   5%|▍         | 299/6300 [00:00<00:04, 1473.17 examples/s]Map:   7%|▋         | 451/6300 [00:00<00:03, 1486.49 examples/s]Map:  10%|▉         | 605/6300 [00:00<00:03, 1499.51 examples/s]Map:  13%|█▎        | 821/6300 [00:00<00:03, 1469.22 examples/s]Map:  15%|█▌        | 976/6300 [00:00<00:03, 1491.15 examples/s]Map:  19%|█▉        | 1184/6300 [00:00<00:03, 1445.12 examples/s]Map:  21%|██▏       | 1343/6300 [00:00<00:03, 1482.39 examples/s]Map:  24%|██▍       | 1504/6300 [00:01<00:03, 1508.09 examples/s]Map:  26%|██▋       | 1658/6300 [00:01<00:03, 1514.72 examples/s]Map:  29%|██▉       | 1814/6300 [00:01<00:02, 1517.02 examples/s]Map:  31%|███▏      | 1969/6300 [00:01<00:02, 1526.17 examples/s]Map:  35%|███▍      | 2187/6300 [00:01<00:02, 1495.32 examples/s]Map:  38%|███▊      | 2416/6300 [00:01<00:02, 1503.86 examples/s]Map:  42%|████▏     | 2628/6300 [00:01<00:02, 1468.56 examples/s]Map:  44%|████▍     | 2780/6300 [00:01<00:02, 1477.16 examples/s]Map:  47%|████▋     | 2936/6300 [00:01<00:02, 1496.77 examples/s]Map:  50%|████▉     | 3149/6300 [00:02<00:02, 1445.53 examples/s]Map:  52%|█████▏    | 3306/6300 [00:02<00:02, 1473.16 examples/s]Map:  55%|█████▍    | 3463/6300 [00:02<00:01, 1486.08 examples/s]Map:  59%|█████▊    | 3686/6300 [00:02<00:01, 1482.65 examples/s]Map:  61%|██████    | 3837/6300 [00:02<00:01, 1487.62 examples/s]Map:  63%|██████▎   | 3990/6300 [00:02<00:01, 1495.97 examples/s]Map:  67%|██████▋   | 4199/6300 [00:02<00:01, 1455.89 examples/s]Map:  69%|██████▉   | 4362/6300 [00:02<00:01, 1496.53 examples/s]Map:  72%|███████▏  | 4525/6300 [00:03<00:01, 1530.54 examples/s]Map:  74%|███████▍  | 4683/6300 [00:03<00:01, 1541.14 examples/s]Map:  77%|███████▋  | 4844/6300 [00:03<00:00, 1557.64 examples/s]Map:  81%|████████  | 5072/6300 [00:03<00:00, 1498.63 examples/s]Map:  83%|████████▎ | 5228/6300 [00:03<00:00, 1509.70 examples/s]Map:  86%|████████▋ | 5438/6300 [00:03<00:00, 1468.08 examples/s]Map:  89%|████████▉ | 5605/6300 [00:03<00:00, 1513.49 examples/s]Map:  92%|█████████▏| 5769/6300 [00:03<00:00, 1544.64 examples/s]Map:  94%|█████████▍| 5932/6300 [00:03<00:00, 1559.02 examples/s]Map:  98%|█████████▊| 6164/6300 [00:04<00:00, 1511.20 examples/s]Map: 100%|██████████| 6300/6300 [00:04<00:00, 1496.95 examples/s]
+Map:   0%|          | 0/900 [00:00<?, ? examples/s]Map:  18%|█▊        | 164/900 [00:00<00:00, 1624.66 examples/s]Map:  44%|████▍     | 395/900 [00:00<00:00, 1560.67 examples/s]Map:  62%|██████▏   | 554/900 [00:00<00:00, 1566.47 examples/s]Map:  87%|████████▋ | 785/900 [00:00<00:00, 1551.30 examples/s]Map: 100%|██████████| 900/900 [00:00<00:00, 1511.57 examples/s]
+Map:   0%|          | 0/1800 [00:00<?, ? examples/s]Map:   9%|▉         | 158/1800 [00:00<00:01, 1556.05 examples/s]Map:  18%|█▊        | 326/1800 [00:00<00:00, 1624.10 examples/s]Map:  31%|███       | 551/1800 [00:00<00:00, 1553.80 examples/s]Map:  44%|████▍     | 790/1800 [00:00<00:00, 1561.16 examples/s]Map:  56%|█████▌    | 1000/1800 [00:00<00:00, 1462.01 examples/s]Map:  64%|██████▍   | 1153/1800 [00:00<00:00, 1475.92 examples/s]Map:  72%|███████▎  | 1305/1800 [00:00<00:00, 1486.92 examples/s]Map:  81%|████████▏ | 1464/1800 [00:00<00:00, 1512.60 examples/s]Map:  90%|█████████ | 1629/1800 [00:01<00:00, 1550.43 examples/s]Map: 100%|██████████| 1800/1800 [00:01<00:00, 1475.19 examples/s]Map: 100%|██████████| 1800/1800 [00:01<00:00, 1505.20 examples/s]
+Some weights of RobertaForTokenClassification were not initialized from the model checkpoint at PlanTL-GOB-ES/bsc-bio-ehr-es and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py:456: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.
+  trainer = Trainer(
+  0%|          | 0/15760 [00:00<?, ?it/s]  0%|          | 1/15760 [00:00<1:53:04,  2.32it/s]  0%|          | 4/15760 [00:00<29:34,  8.88it/s]    0%|          | 7/15760 [00:00<18:26, 14.23it/s]  0%|          | 11/15760 [00:00<13:29, 19.45it/s]  0%|          | 14/15760 [00:00<12:15, 21.39it/s]  0%|          | 18/15760 [00:01<10:43, 24.46it/s]  0%|          | 22/15760 [00:01<09:19, 28.13it/s]  0%|          | 26/15760 [00:01<08:36, 30.44it/s]  0%|          | 30/15760 [00:01<08:52, 29.52it/s]  0%|          | 34/15760 [00:01<08:47, 29.80it/s]  0%|          | 38/15760 [00:01<08:41, 30.14it/s]  0%|          | 42/15760 [00:01<08:35, 30.50it/s]  0%|          | 46/15760 [00:01<08:49, 29.67it/s]Traceback (most recent call last):
+  File "/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py", line 499, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py", line 484, in main
+    trainer.train()
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 2325, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 2674, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 4071, in training_step
+    self.accelerator.backward(loss, **kwargs)
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/accelerate/accelerator.py", line 2852, in backward
+    loss.backward(**kwargs)
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/_tensor.py", line 630, in backward
+    torch.autograd.backward(
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/autograd/__init__.py", line 364, in backward
+    _engine_run_backward(
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/autograd/graph.py", line 865, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 48.00 MiB. GPU 0 has a total capacity of 94.97 GiB of which 37.88 MiB is free. Process 1272513 has 89.99 GiB memory in use. Process 1281278 has 1.50 GiB memory in use. Including non-PyTorch memory, this process has 3.43 GiB memory in use. Of the allocated memory 2.59 GiB is allocated by PyTorch, and 195.12 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  0%|          | 46/15760 [00:02<11:57, 21.90it/s]
+  [11:12:57]     ✓ run1 done
+  [11:12:57]   → training run 2/3  (seed=43)
+Skipping import of cpp extensions due to incompatible torch version 2.10.0+cu128 for torchao version 0.15.0             Please see https://github.com/pytorch/ao/issues/2919 for more info
+Reading /home/lmiranda/ehr-synthetic-bmc-2026/output/CWLC/synth_cwlc_100pct_20260220_093259.json...
+Loaded as JSON list with 9000 records.
+Map:   0%|          | 0/6300 [00:00<?, ? examples/s]Map:   2%|▏         | 149/6300 [00:00<00:04, 1470.95 examples/s]Map:   5%|▍         | 303/6300 [00:00<00:03, 1506.39 examples/s]Map:   7%|▋         | 457/6300 [00:00<00:03, 1516.96 examples/s]Map:  10%|▉         | 615/6300 [00:00<00:03, 1535.61 examples/s]Map:  12%|█▏        | 769/6300 [00:00<00:03, 1535.49 examples/s]Map:  16%|█▌        | 994/6300 [00:00<00:03, 1513.81 examples/s]Map:  19%|█▉        | 1202/6300 [00:00<00:03, 1455.50 examples/s]Map:  21%|██▏       | 1353/6300 [00:00<00:03, 1466.91 examples/s]Map:  24%|██▍       | 1502/6300 [00:01<00:03, 1469.97 examples/s]Map:  26%|██▋       | 1660/6300 [00:01<00:03, 1498.71 examples/s]Map:  29%|██▊       | 1811/6300 [00:01<00:02, 1499.16 examples/s]Map:  31%|███       | 1968/6300 [00:01<00:02, 1517.69 examples/s]Map:  34%|███▍      | 2163/6300 [00:01<00:02, 1430.57 examples/s]Map:  37%|███▋      | 2319/6300 [00:01<00:02, 1459.48 examples/s]Map:  39%|███▉      | 2475/6300 [00:01<00:02, 1484.83 examples/s]Map:  42%|████▏     | 2634/6300 [00:01<00:02, 1512.41 examples/s]Map:  44%|████▍     | 2794/6300 [00:01<00:02, 1528.21 examples/s]Map:  48%|████▊     | 3000/6300 [00:02<00:02, 1465.40 examples/s]Map:  50%|█████     | 3157/6300 [00:02<00:02, 1491.28 examples/s]Map:  53%|█████▎    | 3308/6300 [00:02<00:02, 1492.78 examples/s]Map:  55%|█████▌    | 3469/6300 [00:02<00:01, 1524.84 examples/s]Map:  58%|█████▊    | 3634/6300 [00:02<00:01, 1555.10 examples/s]Map:  61%|██████▏   | 3869/6300 [00:02<00:01, 1557.57 examples/s]Map:  65%|██████▍   | 4088/6300 [00:02<00:01, 1519.18 examples/s]Map:  67%|██████▋   | 4250/6300 [00:02<00:01, 1541.01 examples/s]Map:  71%|███████   | 4468/6300 [00:02<00:01, 1508.72 examples/s]Map:  73%|███████▎  | 4625/6300 [00:03<00:01, 1520.54 examples/s]Map:  77%|███████▋  | 4862/6300 [00:03<00:00, 1537.19 examples/s]Map:  81%|████████  | 5085/6300 [00:03<00:00, 1498.85 examples/s]Map:  83%|████████▎ | 5236/6300 [00:03<00:00, 1496.61 examples/s]Map:  86%|████████▌ | 5401/6300 [00:03<00:00, 1531.49 examples/s]Map:  88%|████████▊ | 5556/6300 [00:03<00:00, 1531.45 examples/s]Map:  91%|█████████ | 5714/6300 [00:03<00:00, 1540.24 examples/s]Map:  93%|█████████▎| 5878/6300 [00:03<00:00, 1563.96 examples/s]Map:  97%|█████████▋| 6082/6300 [00:04<00:00, 1483.04 examples/s]Map:  99%|█████████▉| 6242/6300 [00:04<00:00, 1511.24 examples/s]Map: 100%|██████████| 6300/6300 [00:04<00:00, 1504.10 examples/s]
+Map:   0%|          | 0/900 [00:00<?, ? examples/s]Map:  18%|█▊        | 158/900 [00:00<00:00, 1563.44 examples/s]Map:  35%|███▌      | 317/900 [00:00<00:00, 1575.82 examples/s]Map:  62%|██████▏   | 554/900 [00:00<00:00, 1561.37 examples/s]Map:  86%|████████▌ | 774/900 [00:00<00:00, 1508.77 examples/s]Map: 100%|██████████| 900/900 [00:00<00:00, 1498.34 examples/s]
+Map:   0%|          | 0/1800 [00:00<?, ? examples/s]Map:   9%|▉         | 158/1800 [00:00<00:01, 1558.58 examples/s]Map:  18%|█▊        | 319/1800 [00:00<00:00, 1585.59 examples/s]Map:  27%|██▋       | 487/1800 [00:00<00:00, 1624.91 examples/s]Map:  40%|███▉      | 712/1800 [00:00<00:00, 1556.84 examples/s]Map:  52%|█████▏    | 944/1800 [00:00<00:00, 1546.38 examples/s]Map:  64%|██████▍   | 1149/1800 [00:00<00:00, 1460.65 examples/s]Map:  72%|███████▏  | 1303/1800 [00:00<00:00, 1478.52 examples/s]Map:  81%|████████  | 1453/1800 [00:00<00:00, 1472.51 examples/s]Map:  90%|████████▉ | 1613/1800 [00:01<00:00, 1499.09 examples/s]Map: 100%|██████████| 1800/1800 [00:01<00:00, 1437.78 examples/s]Map: 100%|██████████| 1800/1800 [00:01<00:00, 1490.02 examples/s]
+Some weights of RobertaForTokenClassification were not initialized from the model checkpoint at PlanTL-GOB-ES/bsc-bio-ehr-es and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py:456: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.
+  trainer = Trainer(
+  0%|          | 0/15760 [00:00<?, ?it/s]  0%|          | 1/15760 [00:00<1:27:55,  2.99it/s]  0%|          | 4/15760 [00:00<25:39, 10.23it/s]    0%|          | 8/15760 [00:00<15:16, 17.19it/s]  0%|          | 12/15760 [00:00<12:06, 21.66it/s]  0%|          | 16/15760 [00:00<10:42, 24.51it/s]  0%|          | 20/15760 [00:00<10:04, 26.05it/s]  0%|          | 24/15760 [00:01<09:33, 27.45it/s]  0%|          | 28/15760 [00:01<09:09, 28.63it/s]  0%|          | 32/15760 [00:01<08:54, 29.42it/s]  0%|          | 36/15760 [00:01<08:47, 29.78it/s]Traceback (most recent call last):
+  File "/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py", line 499, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py", line 484, in main
+    trainer.train()
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 2325, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 2674, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 4071, in training_step
+    self.accelerator.backward(loss, **kwargs)
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/accelerate/accelerator.py", line 2852, in backward
+    loss.backward(**kwargs)
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/_tensor.py", line 630, in backward
+    torch.autograd.backward(
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/autograd/__init__.py", line 364, in backward
+    _engine_run_backward(
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/autograd/graph.py", line 865, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 12.00 MiB. GPU 0 has a total capacity of 94.97 GiB of which 7.88 MiB is free. Process 1272513 has 89.99 GiB memory in use. Process 1281278 has 1.50 GiB memory in use. Including non-PyTorch memory, this process has 3.46 GiB memory in use. Of the allocated memory 2.63 GiB is allocated by PyTorch, and 187.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  0%|          | 37/15760 [00:01<12:17, 21.33it/s]
+  [11:13:14]     ✓ run2 done
+  [11:13:14]   → training run 3/3  (seed=44)
+Skipping import of cpp extensions due to incompatible torch version 2.10.0+cu128 for torchao version 0.15.0             Please see https://github.com/pytorch/ao/issues/2919 for more info
+Reading /home/lmiranda/ehr-synthetic-bmc-2026/output/CWLC/synth_cwlc_100pct_20260220_093259.json...
+Loaded as JSON list with 9000 records.
+Map:   0%|          | 0/6300 [00:00<?, ? examples/s]Map:   2%|▏         | 151/6300 [00:00<00:04, 1464.34 examples/s]Map:   6%|▌         | 373/6300 [00:00<00:04, 1461.86 examples/s]Map:   9%|▊         | 543/6300 [00:00<00:03, 1552.68 examples/s]Map:  12%|█▏        | 768/6300 [00:00<00:03, 1523.15 examples/s]Map:  15%|█▍        | 929/6300 [00:00<00:03, 1546.33 examples/s]Map:  18%|█▊        | 1150/6300 [00:00<00:03, 1487.28 examples/s]Map:  21%|██        | 1302/6300 [00:00<00:03, 1493.89 examples/s]Map:  23%|██▎       | 1453/6300 [00:00<00:03, 1496.24 examples/s]Map:  26%|██▌       | 1613/6300 [00:01<00:03, 1521.37 examples/s]Map:  28%|██▊       | 1773/6300 [00:01<00:02, 1539.41 examples/s]Map:  31%|███       | 1931/6300 [00:01<00:02, 1538.00 examples/s]Map:  34%|███▍      | 2161/6300 [00:01<00:02, 1506.22 examples/s]Map:  38%|███▊      | 2385/6300 [00:01<00:02, 1498.26 examples/s]Map:  40%|████      | 2539/6300 [00:01<00:02, 1501.38 examples/s]Map:  43%|████▎     | 2695/6300 [00:01<00:02, 1514.70 examples/s]Map:  46%|████▌     | 2909/6300 [00:01<00:02, 1480.24 examples/s]Map:  49%|████▉     | 3110/6300 [00:02<00:02, 1430.27 examples/s]Map:  52%|█████▏    | 3265/6300 [00:02<00:02, 1457.39 examples/s]Map:  54%|█████▍    | 3424/6300 [00:02<00:01, 1483.30 examples/s]Map:  57%|█████▋    | 3575/6300 [00:02<00:01, 1489.81 examples/s]Map:  59%|█████▉    | 3738/6300 [00:02<00:01, 1527.10 examples/s]Map:  63%|██████▎   | 3968/6300 [00:02<00:01, 1525.08 examples/s]Map:  66%|██████▋   | 4187/6300 [00:02<00:01, 1499.26 examples/s]Map:  69%|██████▉   | 4339/6300 [00:02<00:01, 1502.12 examples/s]Map:  72%|███████▏  | 4566/6300 [00:03<00:01, 1489.74 examples/s]Map:  75%|███████▌  | 4731/6300 [00:03<00:01, 1526.20 examples/s]Map:  78%|███████▊  | 4890/6300 [00:03<00:00, 1538.17 examples/s]Map:  81%|████████  | 5085/6300 [00:03<00:00, 1449.51 examples/s]Map:  83%|████████▎ | 5235/6300 [00:03<00:00, 1460.43 examples/s]Map:  86%|████████▋ | 5449/6300 [00:03<00:00, 1445.10 examples/s]Map:  89%|████████▉ | 5606/6300 [00:03<00:00, 1473.78 examples/s]Map:  91%|█████████▏| 5761/6300 [00:03<00:00, 1492.79 examples/s]Map:  95%|█████████▍| 5978/6300 [00:04<00:00, 1468.49 examples/s]Map:  98%|█████████▊| 6191/6300 [00:04<00:00, 1450.49 examples/s]Map: 100%|██████████| 6300/6300 [00:04<00:00, 1490.40 examples/s]
+Map:   0%|          | 0/900 [00:00<?, ? examples/s]Map:  16%|█▌        | 144/900 [00:00<00:00, 1419.99 examples/s]Map:  33%|███▎      | 297/900 [00:00<00:00, 1478.24 examples/s]Map:  51%|█████     | 458/900 [00:00<00:00, 1531.84 examples/s]Map:  69%|██████▉   | 623/900 [00:00<00:00, 1575.79 examples/s]Map:  87%|████████▋ | 784/900 [00:00<00:00, 1583.55 examples/s]Map: 100%|██████████| 900/900 [00:00<00:00, 1527.60 examples/s]
+Map:   0%|          | 0/1800 [00:00<?, ? examples/s]Map:   9%|▊         | 156/1800 [00:00<00:01, 1541.26 examples/s]Map:  18%|█▊        | 318/1800 [00:00<00:00, 1580.31 examples/s]Map:  27%|██▋       | 479/1800 [00:00<00:00, 1588.14 examples/s]Map:  39%|███▉      | 710/1800 [00:00<00:00, 1555.52 examples/s]Map:  51%|█████▏    | 925/1800 [00:00<00:00, 1502.65 examples/s]Map:  60%|██████    | 1087/1800 [00:00<00:00, 1474.92 examples/s]Map:  69%|██████▉   | 1245/1800 [00:00<00:00, 1499.49 examples/s]Map:  82%|████████▏ | 1472/1800 [00:00<00:00, 1500.45 examples/s]Map:  93%|█████████▎| 1677/1800 [00:01<00:00, 1448.70 examples/s]Map: 100%|██████████| 1800/1800 [00:01<00:00, 1478.22 examples/s]
+Some weights of RobertaForTokenClassification were not initialized from the model checkpoint at PlanTL-GOB-ES/bsc-bio-ehr-es and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py:456: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.
+  trainer = Trainer(
+  0%|          | 0/15760 [00:00<?, ?it/s]  0%|          | 1/15760 [00:00<1:51:04,  2.36it/s]  0%|          | 5/15760 [00:00<24:36, 10.67it/s]    0%|          | 9/15760 [00:00<15:25, 17.01it/s]  0%|          | 12/15760 [00:00<13:16, 19.77it/s]  0%|          | 15/15760 [00:00<12:16, 21.38it/s]  0%|          | 19/15760 [00:01<10:22, 25.30it/s]  0%|          | 23/15760 [00:01<09:33, 27.44it/s]  0%|          | 26/15760 [00:01<09:20, 28.07it/s]  0%|          | 30/15760 [00:01<09:03, 28.93it/s]  0%|          | 34/15760 [00:01<09:04, 28.87it/s]  0%|          | 38/15760 [00:01<08:48, 29.74it/s]  0%|          | 42/15760 [00:01<08:40, 30.19it/s]  0%|          | 46/15760 [00:01<08:38, 30.29it/s]Traceback (most recent call last):
+  File "/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py", line 499, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/lmiranda/ehr-synthetic-bmc-2026/src/train_ner_encoder.py", line 484, in main
+    trainer.train()
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 2325, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 2674, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/transformers/trainer.py", line 4071, in training_step
+    self.accelerator.backward(loss, **kwargs)
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/accelerate/accelerator.py", line 2852, in backward
+    loss.backward(**kwargs)
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/_tensor.py", line 630, in backward
+    torch.autograd.backward(
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/autograd/__init__.py", line 364, in backward
+    _engine_run_backward(
+  File "/home/lmiranda/miniconda3/envs/unsloth-test/lib/python3.11/site-packages/torch/autograd/graph.py", line 865, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 48.00 MiB. GPU 0 has a total capacity of 94.97 GiB of which 47.88 MiB is free. Process 1272513 has 89.99 GiB memory in use. Process 1281278 has 1.50 GiB memory in use. Including non-PyTorch memory, this process has 3.42 GiB memory in use. Of the allocated memory 2.58 GiB is allocated by PyTorch, and 191.74 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  0%|          | 49/15760 [00:02<11:45, 22.27it/s]
+  [11:13:31]     ✓ run3 done
+[collect] run1: /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371/cwlc_100pct_original/downstream_runs/run1 (no metrics file found)
+[collect] run2: /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371/cwlc_100pct_original/downstream_runs/run2 (no metrics file found)
+[collect] run3: /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371/cwlc_100pct_original/downstream_runs/run3 (no metrics file found)
+
+[collect] Report → /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371/cwlc_100pct_original/downstream_aggregate.json
+
+Aggregate (mean ± std):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pipeline finished in 1m09s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Summary: /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371/SUMMARY.md
+  Artifacts: /home/lmiranda/ehr-synthetic-bmc-2026/output/multirun_20260416_111222_1283371
