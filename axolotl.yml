@@ -1,0 +1,62 @@
+# Axolotl config for SFT on our Unsloth-generated chat dataset.
+# This is designed to run inside the `winglian/axolotl:main-20241202` docker image.
+#
+# IMPORTANT:
+# - Set `base_model` to a locally available model path INSIDE the container.
+#   Example: /models/<your_model_dir>
+# - Set `datasets.path` to the dataset JSONL path INSIDE the container.
+#   Example: /workspace/output/train_chat.jsonl
+# - Avoid Blackwell GPU (sm_120) with this container's torch build.
+
+base_model: /models/BASE_MODEL_DIR
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+
+# Use bf16 on Ada (sm_89)
+bf16: true
+fp16: false
+
+# If you run out of VRAM, lower these first
+micro_batch_size: 1
+gradient_accumulation_steps: 4
+num_epochs: 1
+learning_rate: 2e-5
+warmup_steps: 50
+
+# LoRA
+adapter: lora
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_linear: true
+
+# Data
+# We will generate JSONL with keys: prompt, completion
+datasets:
+  - path: /workspace/output/train_chat.jsonl
+    type: completion
+    field_prompt: prompt
+    field_completion: completion
+    split: train
+
+# Packing helps throughput for short examples. If your examples are long, consider false.
+# (If you see OOM during dataloader/packing, set to false.)
+sample_packing: true
+
+sequence_len: 2048
+
+# Output
+output_dir: /workspace/output/axolotl_sft
+save_steps: 200
+eval_steps: 200
+logging_steps: 10
+
+# Eval disabled by default (no eval split unless you provide one)
+eval_sample_packing: false
+val_set_size: 0
+
+# W&B off by default
+wandb_project: ""
+
+# Deepspeed optional; if you want multi-gpu/ZeRO3, set this to the json path in container.
+# deepspeed: deepspeed_configs/zero3.json
